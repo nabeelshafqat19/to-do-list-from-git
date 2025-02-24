@@ -4,6 +4,10 @@ trigger:
 pool:
   name: todopull
 
+variables:
+- name: GITHUB_TOKEN
+  readonly: true
+
 jobs:
 - job: SyncRepos
   pool:
