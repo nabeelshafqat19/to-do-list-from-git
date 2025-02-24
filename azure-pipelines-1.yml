@@ -4,10 +4,6 @@ trigger:
 pool:
   name: todopull
 
-variables:
-- name: GITHUB_TOKEN
-  value: "Is is github token"
-
 jobs:
 - job: SyncRepos
   pool:
