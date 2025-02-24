@@ -2,11 +2,11 @@ trigger:
 - main
 
 pool:
-  name: todopull  # Ensure this is Windows pool (for xcopy)
+  name: todopull  # Requires Windows agent
 
 variables:
 - name: GITHUB_USERNAME
-  value: 'nabeelshafqat19'  # Your GitHub username
+  value: 'nabeelshafqat19'  # Case-sensitive GitHub username
 - name: GITHUB_PAT  # Secret variable (set in pipeline variables)
   value: ''
 
@@ -15,29 +15,28 @@ jobs:
   pool:
     name: todopull
   steps:
-  - checkout: none  # Disable default checkout
+  - checkout: none
 
   # Step 1: Clone source repo
-  - script: |
-      git clone https://github.com/dockersamples/todo-list-app.git
-    displayName: 'Clone source repository'
+  - script: git clone https://github.com/dockersamples/todo-list-app.git
+    displayName: 'Clone source repo'
 
   # Step 2: Sync to target repo
   - script: |
       git config --global user.name "nabeelshafqat19"
       git config --global user.email "hopnesscrew@gmail.com"
-      
-      # Clone target repo with authentication
+
+      # Clone target repo with URL-encoded PAT
       git clone https://$(GITHUB_USERNAME):$(GITHUB_PAT)@github.com/nabeelshafqat19/to-do-list-from-git.git
-      
-      # Copy files (Windows syntax)
+
+      # Copy files (preserve directory structure)
       xcopy /E /Y /I "todo-list-app\*" "to-do-list-from-git\"
-      
-      # Commit changes
+
+      # Commit and push
       cd to-do-list-from-git
       git add .
       git commit -m "Auto-sync: $(Build.BuildNumber) [skip ci]"
-      git push origin main
+      git push https://$(GITHUB_USERNAME):$(GITHUB_PAT)@github.com/nabeelshafqat19/to-do-list-from-git.git main
     displayName: 'Push to target repo'
     env:
       GITHUB_PAT: $(GITHUB_PAT)  # Pass secret as environment variable
