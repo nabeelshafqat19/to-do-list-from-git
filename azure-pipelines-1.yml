@@ -29,10 +29,10 @@ jobs:
   - script: |
       git config --global user.name '$(GITHUB_USERNAME)'
       git config --global user.email 'you@example.com'
-      git clone https://$(GITHUB_USERNAME):$(GITHUB_TOKEN)@github.com/nabeelshafqat19/to-do-list-from-git.git
+      git clone https://$(GITHUB_USERNAME):$(GITHUB_TOKEN)@github.com/nabeelshafqat19/to-do-list-from-git
       cd to-do-list-from-git
       xcopy ..\todo-list-app\* . /s /e /y
       git add .
       git commit -m "Sync from source repository"
-      git push https://$(GITHUB_USERNAME):$(GITHUB_TOKEN)@github.com/nabeelshafqat19/to-do-list-from-git.git
+      git push https://$(GITHUB_USERNAME):$(GITHUB_TOKEN)@github.com/nabeelshafqat19/to-do-list-from-git
     displayName: 'Push to target repo'
