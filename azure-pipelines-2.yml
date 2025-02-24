@@ -27,7 +27,7 @@ jobs:
       git config --global user.email "hopnesscrew@gmail.com"
 
       # Clone target repo with URL-encoded PAT
-      git clone https://$(GITHUB_USERNAME):$(GITHUB_PAT)@github.com/nabeelshafqat19/to-do-list-from-git.git
+      git clone https://$(GITHUB_USERNAME):$(GITHUB_PAT)@github.com/nabeelshafqat19/todolistpull.git
 
       # Copy files (preserve directory structure)
       xcopy /E /Y /I "todo-list-app\*" "to-do-list-from-git\"
@@ -36,7 +36,7 @@ jobs:
       cd to-do-list-from-git
       git add .
       git commit -m "Auto-sync: $(Build.BuildNumber) [skip ci]"
-      git push https://$(GITHUB_USERNAME):$(GITHUB_PAT)@github.com/nabeelshafqat19/to-do-list-from-git.git main
+      git push https://$(GITHUB_USERNAME):$(GITHUB_PAT)@github.com/nabeelshafqat19/todolistpull.git main
     displayName: 'Push to target repo'
     env:
       GITHUB_PAT: $(GITHUB_PAT)  # Pass secret as environment variable
