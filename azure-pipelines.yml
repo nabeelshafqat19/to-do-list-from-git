@@ -1,0 +1,34 @@
+trigger:
+- main
+
+pool:
+  name: todopull
+
+jobs:
+- job: SyncRepos
+  pool:
+    name: todopull
+
+  steps:
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '5.x'
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+
+  - script: |
+      git clone https://github.com/dockersamples/todo-list-app.git
+      cd todo-list-app
+      git checkout main
+    displayName: 'Checkout source repo'
+
+  - script: |
+      git config --global user.name 'nabeelshafqat19'
+      git config --global user.email 'hopnesscrew@gmail.com'
+      git clone https://github.com/nabeelshafqat19/to-do-list-from-git.git
+      cd to-do-list-from-git
+      cp -R ../todo-list-app/* .
+      git add .
+      git commit -m "Sync from source repository"
+      git push https://username:password@github.com/nabeelshafqat19/to-do-list-from-git.git
+    displayName: 'Push to target repo'
